@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Recipe
 {
@@ -21,5 +22,16 @@ namespace Recipe
                 Console.WriteLine($"{i+1}.{steps[i]}");
             }
         }
+
+        private static string GetUnit(int unitIndex)
+        {
+            string[] units =
+            {
+                        "teaspoon", "tablespoon", "cup", "g", "kg", "ml", "l"
+                    };
+            return
+        units[unitIndex];
+        }
+
     }
 }
