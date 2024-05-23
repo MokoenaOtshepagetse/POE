@@ -11,6 +11,38 @@ namespace Recipe
         public int UnitIndex { get; set; }
         public int FoodGroupIndex { get; set; }
         public double Calories { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Quantity} {GetMeasurementUnit(UnitIndex)} {Name} ({Calories} calories, {GetFoodGroup(FoodGroupIndex)})";
+        }
+
+        private static string GetMeasurementUnit(int unitIndex)
+        {
+            string[] units =
+            {
+                "teaspoon", "tablespoon", "cup", "g", "kg", "ml", "l"
+            };
+            if (unitIndex < 0 || unitIndex >= units.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(unitIndex), "Not a valid unit of measure");
+            }
+            return units[unitIndex];
+        }
+
+        private static string GetFoodGroup(int foodGroupIndex)
+        {
+            string[] foodGroups =
+            {
+                "Dairy", "Protein", "Vegetables", "Fruits", "Grains"
+            };
+            if (foodGroupIndex < 0 || foodGroupIndex >= foodGroups.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(foodGroupIndex), "Not a valid food group");
+            }
+            return foodGroups[foodGroupIndex];
+        }
+
     }
 
         public class RecipeHolder
@@ -31,18 +63,7 @@ namespace Recipe
             }
         }
 
-        private static string GetMeasurementUnit(int unitIndex)
-        {
-            string[] units =
-            {
-                "teaspoon", "tablespoon", "cup", "g", "kg", "ml", "l"
-            };
-            if (unitIndex < 0 || unitIndex >= units.Length)
-            {
-                throw new ArgumentOutOfRangeException(nameof(unitIndex), "Not a valid unit of measure");
-            }
-            return units[unitIndex];
-        }
+        
     }
 
     public class MeasurementAdjuster
