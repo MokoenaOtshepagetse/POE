@@ -166,6 +166,85 @@ class Program
                     recipes.Add(newRecipe);
                     break;
 
+                case 2:
+                    if (recipes.Count == 0)
+                    {
+                        Console.WriteLine("No recipes available.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Recipes:");
+                        foreach (var recipe in recipes.OrderBy(r => r.Name))
+                        {
+                            Console.WriteLine(recipe.Name);
+                        }
+                    }
+                    break;
+
+                case 3:
+                    if (recipes.Count == 0)
+                    {
+                        Console.WriteLine("No recipes available.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Enter the name of the recipe to display:");
+                        string recipeName = Console.ReadLine();
+                        var selectedRecipe = recipes.FirstOrDefault(r => r.Name.Equals(recipeName, StringComparison.OrdinalIgnoreCase));
+
+                        if (selectedRecipe == null)
+                        {
+                            Console.WriteLine("Recipe not found.");
+                        }
+                        else
+                        {
+                            selectedRecipe.MakeRecipe();
+                            bool continueRecipe = true;
+
+                            while (continueRecipe)
+                            {
+                                Console.WriteLine("\nChoose an option:");
+                                Console.WriteLine("1. Multiply recipe measurements");
+                                Console.WriteLine("2. Reset recipe measurements");
+                                Console.WriteLine("3. Back to main menu");
+                                int recipeChoice = int.Parse(Console.ReadLine());
+
+                                switch (recipeChoice)
+                                {
+                                    case 1:
+                                        Console.WriteLine("Enter the multiplication factor (0.5, 2, 3):");
+                                        double factor = double.Parse(Console.ReadLine());
+                                        var adjustedMeasurements = MeasurementAdjuster.AdjustMeasurements(selectedRecipe.Ingredients, factor);
+                                        Console.WriteLine($"\nRecipe multiplied by {factor}:");
+                                        selectedRecipe.Ingredients = adjustedMeasurements;
+                                        selectedRecipe.MakeRecipe();
+                                        break;
+
+                                    case 2:
+                                        Console.WriteLine("\nOriginal Recipe:");
+                                        selectedRecipe.MakeRecipe();
+                                        break;
+
+                                    case 3:
+                                        continueRecipe = false;
+                                        break;
+
+                                    default:
+                                        Console.WriteLine("Invalid option. Please try again.");
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+                case 4:
+                    return;
+
+                default:
+                    Console.WriteLine("Invalid option. Please try again.");
+                    break;
+
             }
         }
     }
