@@ -83,17 +83,16 @@ namespace Recipe
 
     public class MeasurementAdjuster
     {
-        public static List<(double quantity, int unitIndex)> AdjustMeasurements(List<(double quantity, int unitIndex)> measurements, double factor)
+        public static List<Ingredient> AdjustMeasurements(List<Ingredient> ingredients, double factor)
         {
-            List<(double quantity, int unitIndex)> adjustedMeasurements = new List<(double quantity, int unitIndex)>();
-
-            foreach (var measurement in measurements)
+            return ingredients.Select(ingredient => new Ingredient
             {
-                double adjustedQuantity = measurement.quantity * factor;
-                adjustedMeasurements.Add((adjustedQuantity, measurement.unitIndex));
-            }
-
-            return adjustedMeasurements;
+                Name = ingredient.Name,
+                Quantity = ingredient.Quantity * factor,
+                UnitIndex = ingredient.UnitIndex,
+                FoodGroupIndex = ingredient.FoodGroupIndex,
+                Calories = ingredient.Calories
+            }).ToList();
         }
     }
 
@@ -101,77 +100,10 @@ namespace Recipe
     {
         static void Main()
         {
-            List<string> ingredients = new List<string>();
-            List<(double quantity, int unitIndex)> measurements = new List<(double quantity, int unitIndex)>();
-            List<string> steps = new List<string>();
-
-            Console.WriteLine("Enter the number of ingredients:");
-            int ingredientCount = int.Parse(Console.ReadLine());
-
+            List<RecipeHolder> recipes = new List<RecipeHolder>();
             string[] units = { "teaspoon", "tablespoon", "cup", "g", "kg", "ml", "l" };
-
-            for (int i = 0; i < ingredientCount; i++)
-            {
-                Console.WriteLine($"Enter the name of ingredient {i + 1}:");
-                ingredients.Add(Console.ReadLine());
-
-                Console.WriteLine($"Enter the quantity of ingredient {i + 1}:");
-                double quantity = double.Parse(Console.ReadLine());
-
-                Console.WriteLine("Select the unit of measurement:");
-                for (int j = 0; j < units.Length; j++)
-                {
-                    Console.WriteLine($"{j+1}. {units[j]}");
-                }
-                int unitIndex = int.Parse(Console.ReadLine());
-
-                measurements.Add((quantity, unitIndex));
-            }
-
-            Console.WriteLine("Enter the number of steps:");
-            int stepCount = int.Parse(Console.ReadLine());
-
-            for (int i = 0; i < stepCount; i++)
-            {
-                Console.WriteLine($"Enter step {i + 1}:");
-                steps.Add(Console.ReadLine());
-            }
-
-            RecipeHolder recipeHolder = new RecipeHolder();
-            Console.WriteLine("\nOriginal Recipe:");
-            recipeHolder.MakeRecipe(ingredients, measurements, steps);
-
-            bool continueProgram = true;
-
-            while (continueProgram)
-            {
-                Console.WriteLine("\nChoose an option:");
-                Console.WriteLine("1. Multiply recipe measurements");
-                Console.WriteLine("2. Reset recipe measurements");
-                Console.WriteLine("3. Exit");
-                int choice = int.Parse(Console.ReadLine());
-
-                switch (choice)
-                {
-                    case 1:
-                        Console.WriteLine("Enter the multiplication factor (0.5, 2, 3):");
-                        double factor = double.Parse(Console.ReadLine());
-                        List<(double quantity, int unitIndex)> adjustedMeasurements = MeasurementAdjuster.AdjustMeasurements(measurements, factor);
-                        Console.WriteLine($"\nRecipe multiplied by {factor}:");
-                        recipeHolder.MakeRecipe(ingredients, adjustedMeasurements, steps);
-                        break;
-                    case 2:
-                        Console.WriteLine("\nOriginal Recipe:");
-                        recipeHolder.MakeRecipe(ingredients, measurements, steps);
-                        break;
-                    case 3:
-                        continueProgram = false;
-                        break;
-                    default:
-                        Console.WriteLine("Invalid option. Please try again.");
-                        break;
-                }
-            }
+            string[] foodGroups = { "Dairy", "Protein", "Vegetables", "Fruits", "Grains" };
+           
         }
     }
 
