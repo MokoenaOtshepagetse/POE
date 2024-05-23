@@ -47,21 +47,36 @@ namespace Recipe
 
         public class RecipeHolder
     {
-        public void MakeRecipe(List<string> ingredients, List<(double quantity, int unitIndex)> measurements, List<string> steps)
+        public string Name { get; set; }
+        public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+        public List<string> Steps { get; set; } = new List<string>();
+
+        public delegate void CalorieExceededHandler(string message);
+        public event CalorieExceededHandler CalorieExceeded;
+
+        public void MakeRecipe()
         {
-            Console.WriteLine("Ingredients: ");
-            for (int i = 0; i < ingredients.Count; i++)
+            Console.WriteLine($"\nRecipe: {Name}");
+            Console.WriteLine("Ingredients:");
+            double totalCalories = 0;
+            foreach (var ingredient in Ingredients)
             {
-                double quantity = measurements[i].quantity;
-                string unit = GetMeasurementUnit(measurements[i].unitIndex);
-                Console.WriteLine($"{quantity} {unit}s {ingredients[i]}");
+                Console.WriteLine(ingredient);
+                totalCalories += ingredient.Calories * ingredient.Quantity;
             }
-            Console.WriteLine("\nSteps: ");
-            for (int i = 0; i < steps.Count; i++)
+            Console.WriteLine("\nSteps:");
+            for (int i = 0; i < Steps.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {steps[i]}");
+                Console.WriteLine($"{i + 1}. {Steps[i]}");
+            }
+            Console.WriteLine($"\nTotal Calories: {totalCalories}");
+
+            if (totalCalories > 300)
+            {
+                CalorieExceeded?.Invoke($"Warning: Total calorie count for {Name} exceeds 300 calories.");
             }
         }
+    }
 
         
     }
@@ -159,6 +174,6 @@ namespace Recipe
             }
         }
     }
-}
+
 
 
