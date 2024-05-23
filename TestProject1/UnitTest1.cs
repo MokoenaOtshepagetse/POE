@@ -22,5 +22,19 @@ namespace RecipeTests
             // Assert
             Assert.Equal(850, totalCalories);
         }
+
+        [Fact]
+        public void CalculateTotalCalories_ShouldReturnZeroForNoIngredients()
+        {
+            // Arrange
+            var ingredients = new List<Ingredient>();
+            var recipe = new RecipeHolder { Ingredients = ingredients };
+
+            // Act
+            double totalCalories = recipe.CalculateTotalCalories();
+
+            // Assert
+            Assert.Equal(0, totalCalories);
+        }
     }
 }
