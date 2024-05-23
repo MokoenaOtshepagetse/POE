@@ -103,7 +103,17 @@ namespace Recipe
             List<RecipeHolder> recipes = new List<RecipeHolder>();
             string[] units = { "teaspoon", "tablespoon", "cup", "g", "kg", "ml", "l" };
             string[] foodGroups = { "Dairy", "Protein", "Vegetables", "Fruits", "Grains" };
-           
+
+            while (true)
+            {
+                Console.WriteLine("\nChoose an option:");
+                Console.WriteLine("1. Add a recipe");
+                Console.WriteLine("2. List recipes");
+                Console.WriteLine("3. Display a recipe");
+                Console.WriteLine("4. Exit");
+                int choice = int.Parse(Console.ReadLine());
+
+            }
         }
     }
 
