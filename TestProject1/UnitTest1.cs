@@ -37,4 +37,23 @@ namespace RecipeTests
             Assert.Equal(0, totalCalories);
         }
     }
+
+    public class Ingredient
+    {
+        public string Name { get; set; }
+        public double Quantity { get; set; }
+        public int UnitIndex { get; set; }
+        public int FoodGroupIndex { get; set; }
+        public double Calories { get; set; }
+    }
+
+    public class RecipeHolder
+    {
+        public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+
+        public double CalculateTotalCalories()
+        {
+            return Ingredients.Sum(ingredient => ingredient.Calories * ingredient.Quantity);
+        }
+    }
 }
