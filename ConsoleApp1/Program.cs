@@ -56,8 +56,7 @@ namespace Recipe
 
         public void MakeRecipe()
         {
-            double totalCalories = Ingredients.Sum(ingredient => ingredient.Calories * ingredient.Quantity);
-            SetCalorieColor(totalCalories);
+            double totalCalories = 0;          
             Console.WriteLine($"\nRecipe: {Name}");
             Console.WriteLine("Ingredients:");       
             foreach (var ingredient in Ingredients)
@@ -76,63 +75,11 @@ namespace Recipe
             {
                 CalorieExceeded?.Invoke($"Warning: Total calorie count for {Name} exceeds 300 calories.");
             }
-            ResetConsoleColor();
         }
     }    
     }
 
-        public void SetCalorieColor(double calories)
-        {
-            string color = GetCalorieColor(calories);
-            switch (color)
-            {
-                case "green":
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    break;
-                case "darkgreen":
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.BackgroundColor = ConsoleColor.White;
-                    break;
-                case "yellow":
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    break;
-                case "orange":
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    break;
-                case "red":
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
-            }
-        }
-
-    string GetCalorieColor(double calories)
-    {
-        if (calories <= 300)
-        {
-            return "green";
-        }
-        else if (calories <= 600)
-        {
-            return "darkgreen";
-        }
-        else if (calories <= 900)
-        {
-            return "yellow";
-        }
-        else if (calories <= 1200)
-        {
-            return "orange";
-        }
-        else
-        {
-            return "red";
-        }
-    }
-
-    void ResetConsoleColor()
-    {
-        Console.ResetColor();
-    }
+        
     
 
     public class MeasurementAdjuster
