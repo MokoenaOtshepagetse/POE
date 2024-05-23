@@ -34,7 +34,7 @@ namespace Recipe
         {
             string[] foodGroups =
             {
-                "Dairy", "Protein", "Vegetables", "Fruits", "Grains"
+                "Dairy", "Protein", "Vegetables", "Fruits", "Grains", "Sugars"
             };
             if (foodGroupIndex < 0 || foodGroupIndex >= foodGroups.Length)
             {
@@ -96,26 +96,80 @@ namespace Recipe
         }
     }
 
-    class Program
+class Program
+{
+    static void Main()
     {
-        static void Main()
-        {
-            List<RecipeHolder> recipes = new List<RecipeHolder>();
-            string[] units = { "teaspoon", "tablespoon", "cup", "g", "kg", "ml", "l" };
-            string[] foodGroups = { "Dairy", "Protein", "Vegetables", "Fruits", "Grains" };
+        List<RecipeHolder> recipes = new List<RecipeHolder>();
+        string[] units = { "teaspoon", "tablespoon", "cup", "g", "kg", "ml", "l" };
+        string[] foodGroups = { "Dairy", "Protein", "Vegetables", "Fruits", "Grains", "Sugars" };
 
-            while (true)
+        while (true)
+        {
+            Console.WriteLine("\nChoose an option:");
+            Console.WriteLine("1. Add a recipe");
+            Console.WriteLine("2. List recipes");
+            Console.WriteLine("3. Display a recipe");
+            Console.WriteLine("4. Exit");
+            int choice = int.Parse(Console.ReadLine());
+
+            switch (choice)
             {
-                Console.WriteLine("\nChoose an option:");
-                Console.WriteLine("1. Add a recipe");
-                Console.WriteLine("2. List recipes");
-                Console.WriteLine("3. Display a recipe");
-                Console.WriteLine("4. Exit");
-                int choice = int.Parse(Console.ReadLine());
+                case 1:
+                    RecipeHolder newRecipe = new RecipeHolder();
+                    Console.WriteLine("Enter the name of the recipe:");
+                    newRecipe.Name = Console.ReadLine();
+
+                    Console.WriteLine("Enter the number of ingredients:");
+                    int ingredientCount = int.Parse(Console.ReadLine());
+
+                    for (int i = 0; i < ingredientCount; i++)
+                    {
+                        Ingredient ingredient = new Ingredient();
+
+                        Console.WriteLine($"Enter the name of ingredient {i + 1}:");
+                        ingredient.Name = Console.ReadLine();
+
+                        Console.WriteLine($"Enter the quantity of ingredient {i + 1}:");
+                        ingredient.Quantity = double.Parse(Console.ReadLine());
+
+                        Console.WriteLine("Select the unit of measurement:");
+                        for (int j = 0; j < units.Length; j++)
+                        {
+                            Console.WriteLine($"{j + 1}. {units[j]}");
+                        }
+                        ingredient.UnitIndex = int.Parse(Console.ReadLine());
+
+                        Console.WriteLine("Select the food group:");
+                        for (int j = 0; j < foodGroups.Length; j++)
+                        {
+                            Console.WriteLine($"{j}. {foodGroups[j]}");
+                        }
+                        ingredient.FoodGroupIndex = int.Parse(Console.ReadLine());
+
+                        Console.WriteLine($"Enter the calories for {ingredient.Name}:");
+                        ingredient.Calories = double.Parse(Console.ReadLine());
+
+                        newRecipe.Ingredients.Add(ingredient);
+                    }
+
+                    Console.WriteLine("Enter the number of steps:");
+                    int stepCount = int.Parse(Console.ReadLine());
+
+                    for (int i = 0; i < stepCount; i++)
+                    {
+                        Console.WriteLine($"Enter step {i + 1}:");
+                        newRecipe.Steps.Add(Console.ReadLine());
+                    }
+
+                    newRecipe.CalorieExceeded += message => Console.WriteLine(message);
+                    recipes.Add(newRecipe);
+                    break;
 
             }
         }
     }
+}
 
 
 
